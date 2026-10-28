@@ -1,0 +1,58 @@
+{
+  "clients": [
+    {
+      "id": "CL-101",
+      "name": "Acme Corp",
+      "tier": "Enterprise",
+      "monthly_spend": 12500,
+      "status": "Active",
+      "account_manager": "Sarah Jenkins",
+      "contact_email": "ops@acmecorp.com"
+    },
+    {
+      "id": "CL-102",
+      "name": "TechStart Inc",
+      "tier": "Growth",
+      "monthly_spend": 2800,
+      "status": "Active",
+      "account_manager": "David Ross",
+      "contact_email": "admin@techstart.io"
+    },
+    {
+      "id": "CL-103",
+      "name": "BlueWave Logistics",
+      "tier": "Enterprise",
+      "monthly_spend": 24000,
+      "status": "Pending Renewal",
+      "account_manager": "Sarah Jenkins",
+      "contact_email": "it@bluewave.com"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TK-501",
+      "client_id": "CL-101",
+      "title": "Migrate database replica",
+      "status": "In Progress",
+      "priority": "High",
+      "assigned_to": "Alex"
+    },
+    {
+      "id": "TK-502",
+      "client_id": "CL-102",
+      "title": "Setup SSO integration",
+      "status": "Blocked",
+      "priority": "Critical",
+      "assigned_to": "Maya"
+    },
+    {
+      "id": "TK-503",
+      "client_id": "CL-103",
+      "title": "Quarterly security review",
+      "status": "Completed",
+      "priority": "Medium",
+      "assigned_to": "Alex"
+    }
+  ]
+}
+
