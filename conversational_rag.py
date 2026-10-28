@@ -1,7 +1,7 @@
 """
-Day 2: Conversational RAG with Memory Strategies
-------------------------------------------------
-Demonstrates:
+Conversational Operations RAG with Memory Strategies
+----------------------------------------------------
+Capabilities:
 1. Multi-turn grounded chat with conversation history
 2. History-Aware Query Reformulation (resolving pronouns like "it", "that" using prior turns)
 3. Buffer Memory vs. Summary Memory strategies
@@ -136,7 +136,7 @@ def summarize_history(chat_history: List[BaseMessage], existing_summary: str, ll
 # -------------------------------------------------------------
 def run_multiturn_demo():
     print("=" * 65)
-    print("DAY 2 DEMO: Multi-Turn Grounded Chat with Contextual Reformulation")
+    print("DEMO: Multi-Turn Grounded Chat with Contextual Reformulation")
     print("=" * 65)
 
     qa_chain, rephrase_chain = build_conversational_rag_chain()

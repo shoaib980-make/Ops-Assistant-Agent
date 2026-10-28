@@ -1,7 +1,7 @@
 """
-Day 2: LangChain Retrieval Chain (RAG)
---------------------------------------
-Demonstrates:
+Operations Knowledge Base Retrieval Pipeline (RAG)
+---------------------------------------------------
+Capabilities:
 1. Document ingestion and text splitting (RecursiveCharacterTextSplitter)
 2. Vector embeddings and indexing using InMemoryVectorStore
 3. Retriever abstraction in LangChain

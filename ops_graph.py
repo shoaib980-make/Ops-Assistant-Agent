@@ -1,5 +1,5 @@
 """
-Day 4: LangGraph Stateful Ops Assistant Agent
+Stateful LangGraph Operations Assistant Agent
 ----------------------------------------------
 Implements:
 1. AgentState with message reducer and execution tracking.
@@ -22,6 +22,7 @@ from langgraph.types import interrupt, Command
 from rag_chain import get_llm
 from tools import OPS_TOOLS, TOOLS_BY_NAME
 from graph_state import AgentState
+from guardrails import sanitize_tool_output, validate_user_input
 
 load_dotenv()
 
@@ -100,7 +101,11 @@ def safe_tools_node(state: AgentState):
                 result = f"Tool execution failed with error: {str(e)}. Please adjust parameters."
 
         tool_messages.append(
-            ToolMessage(content=str(result), tool_call_id=call_id, name=tool_name)
+            ToolMessage(
+                content=sanitize_tool_output(str(result)),
+                tool_call_id=call_id,
+                name=tool_name
+            )
         )
 
     return {"messages": tool_messages}
@@ -223,7 +228,7 @@ def build_ops_graph():
 # -------------------------------------------------------------
 def run_interactive_demo():
     print("=" * 70)
-    print("DAY 4 DEMO: LangGraph Ops Assistant with Human-in-the-Loop Approval")
+    print("Ops Assistant Agent: Stateful Execution with Human Approval")
     print("=" * 70)
 
     graph = build_ops_graph()

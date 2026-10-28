@@ -1,7 +1,7 @@
 """
-Day 4: LangGraph State Definition
----------------------------------
-Defines the state structure that flows through the LangGraph agent nodes.
+LangGraph State Definition for Ops Assistant Agent
+--------------------------------------------------
+Defines the state structure that flows through the agent nodes.
 """
 
 from typing import Annotated, Any, Dict, List, Optional

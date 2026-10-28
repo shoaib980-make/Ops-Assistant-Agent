@@ -1,7 +1,7 @@
 """
-Day 3: Tool-Calling Agent Loop & Tracing
-----------------------------------------
-Demonstrates:
+Tool-Calling Agent Execution Loop & Tracing
+--------------------------------------------
+Features:
 1. Binding tools to an LLM (`model.bind_tools(OPS_TOOLS)`)
 2. Inspecting model-generated `tool_calls`
 3. Tool execution and returning `ToolMessage`

@@ -1,6 +1,6 @@
 """
-Day 3: Operational Tools for Ops Assistant Agent
-------------------------------------------------
+Operational Tools for Ops Assistant Agent
+-----------------------------------------
 Defines four production-grade LangChain tools:
 1. ops_handbook_lookup: RAG search over company policies & SOPs.
 2. database_lookup: Structured query over clients and operational tasks.

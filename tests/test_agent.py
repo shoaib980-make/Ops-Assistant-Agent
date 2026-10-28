@@ -1,8 +1,8 @@
 """
-Comprehensive Test Suite for Days 1 to 4
-Can be executed with standard python unittest (no extra libraries required).
+Automated Test Suite for Ops Assistant Agent
+Verifies extraction, retrieval, tools, graph transitions, and human-in-the-loop checkpoints.
 Run with:
-    python tests/test_days.py
+    python tests/test_agent.py
 """
 
 import unittest
@@ -16,21 +16,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from langchain_core.messages import HumanMessage
 from langgraph.types import Command
 
-# Day 1 imports
-from main import extract_information, ExtractedInfo
-
-# Day 2 imports
+from extractor import extract_information, ExtractedInfo
 from rag_chain import build_ops_retriever, format_docs
-
-# Day 3 imports
 from tools import ops_handbook_lookup, database_lookup, calculate, draft_email
-
-# Day 4 imports
 from ops_graph import build_ops_graph
 
 
-class TestDay1Extraction(unittest.TestCase):
-    """Verifies Day 1 LCEL extraction into Pydantic models."""
+class TestExtraction(unittest.TestCase):
+    """Verifies schema extraction into Pydantic models."""
 
     def test_extract_information(self):
         sample = "OpsDesk is an incident ticketing system built using FastAPI and PostgreSQL."
@@ -41,8 +34,8 @@ class TestDay1Extraction(unittest.TestCase):
         self.assertTrue(len(result.keywords) >= 3)
 
 
-class TestDay2Retrieval(unittest.TestCase):
-    """Verifies Day 2 Document Ingestion and Vector Retriever."""
+class TestRetrieval(unittest.TestCase):
+    """Verifies document ingestion and vector retriever."""
 
     def test_ops_retriever(self):
         retriever = build_ops_retriever()
@@ -52,8 +45,8 @@ class TestDay2Retrieval(unittest.TestCase):
         self.assertIn("SOP-001", formatted)
 
 
-class TestDay3Tools(unittest.TestCase):
-    """Verifies Day 3 Tools execution and schemas."""
+class TestTools(unittest.TestCase):
+    """Verifies operational tools execution and schemas."""
 
     def test_calculate_tool(self):
         result = calculate.invoke({"expression": "12500 * 0.15"})
@@ -84,8 +77,8 @@ class TestDay3Tools(unittest.TestCase):
         self.assertEqual(data["recipient"], "test@company.com")
 
 
-class TestDay4LangGraph(unittest.TestCase):
-    """Verifies Day 4 LangGraph compilation, routing, and Human-in-the-Loop checkpoint."""
+class TestLangGraphWorkflow(unittest.TestCase):
+    """Verifies LangGraph compilation, routing, and Human-in-the-Loop checkpoint."""
 
     def test_graph_compilation_and_execution(self):
         graph = build_ops_graph()

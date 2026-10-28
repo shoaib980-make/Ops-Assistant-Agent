@@ -1,6 +1,6 @@
 """
-Day 3 Hands-on Activity: Tool Description A/B Test
----------------------------------------------------
+Tool Description A/B Testing Framework
+--------------------------------------
 Evaluates how tool description clarity directly impacts tool-selection accuracy.
 Compares:
 - Version A (Vague / Poor Descriptions)
