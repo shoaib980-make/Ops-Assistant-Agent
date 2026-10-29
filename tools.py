@@ -14,6 +14,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 from langchain_core.tools import tool
 from rag_chain import build_ops_retriever, format_docs
+from supabase_client import query_records, is_supabase_enabled
 
 # Cache the retriever instance so it doesn't re-embed on every call
 _RETRIEVER = None
@@ -63,36 +64,14 @@ class DatabaseQueryInput(BaseModel):
 @tool("database_lookup", args_schema=DatabaseQueryInput)
 def database_lookup(table: str, identifier: str = "") -> str:
     """Look up structured operational records in the company database (clients or tasks).
+    Supports live Supabase querying with automatic fallback to local records.
     Use this tool to find client details (tier, spend, account manager) or task status (priority, assignee).
     Do NOT use this tool for general policy questions (use ops_handbook_lookup instead)."""
-    db_path = Path(__file__).parent / "data" / "ops_database.json"
-    if not db_path.exists():
-        return "Database file not found."
-
-    with open(db_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
     table_key = table.strip().lower()
-    if table_key not in data:
+    if table_key not in ("clients", "tasks"):
         return f"Invalid table '{table}'. Valid tables are: 'clients', 'tasks'."
 
-    records = data[table_key]
-    if not identifier:
-        return json.dumps(records, indent=2)
-
-    identifier_clean = identifier.strip().lower()
-    filtered = []
-    for record in records:
-        # Match against id, name, title, status, priority, or assignee
-        match_id = record.get("id", "").lower() == identifier_clean
-        match_name = identifier_clean in record.get("name", "").lower()
-        match_title = identifier_clean in record.get("title", "").lower()
-        match_client = identifier_clean in record.get("client_id", "").lower()
-        match_status = identifier_clean in record.get("status", "").lower()
-        match_assignee = identifier_clean in record.get("assigned_to", "").lower()
-        if match_id or match_name or match_title or match_client or match_status or match_assignee:
-            filtered.append(record)
-
+    filtered = query_records(table_key, identifier)
     if not filtered:
         return f"No records found in '{table}' matching '{identifier}'."
     return json.dumps(filtered, indent=2)

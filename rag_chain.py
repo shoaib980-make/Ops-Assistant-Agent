@@ -24,6 +24,12 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
+try:
+    from langchain_community.vectorstores import FAISS
+    HAS_FAISS = True
+except ImportError:
+    HAS_FAISS = False
+
 load_dotenv()
 
 
@@ -59,7 +65,7 @@ def format_docs(docs: list[Document]) -> str:
 
 
 def build_ops_retriever():
-    """Load handbook, chunk into sections, and build in-memory retriever."""
+    """Load handbook, chunk into sections, and build high-performance vector retriever (FAISS / VectorStore)."""
     handbook_path = Path(__file__).parent / "data" / "ops_handbook.md"
     content = handbook_path.read_text(encoding="utf-8")
 
@@ -74,8 +80,14 @@ def build_ops_retriever():
         metadatas=[{"source": "data/ops_handbook.md"}]
     )
 
-    vector_store = InMemoryVectorStore(embedding=get_embeddings())
-    vector_store.add_documents(docs)
+    embeddings = get_embeddings()
+
+    # Use FAISS vector store for high-performance indexing
+    if HAS_FAISS:
+        vector_store = FAISS.from_documents(docs, embeddings)
+    else:
+        vector_store = InMemoryVectorStore(embedding=embeddings)
+        vector_store.add_documents(docs)
 
     # Convert to LangChain Retriever (retrieve top 2 relevant chunks)
     return vector_store.as_retriever(search_kwargs={"k": 2})
